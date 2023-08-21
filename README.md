@@ -1,2 +1,2 @@
 # storefront
-# Building an web store with Django FrameWork folloing CodeWithMosh Course
+# Building an web store with Django FrameWork following CodeWithMosh Course
