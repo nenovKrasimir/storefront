@@ -1,5 +1,30 @@
+<!DOCTYPE html>
 <html>
-    <body>
-        <h1>Hello World</h1>
-    </body>
+<head>
+    <title>Report</title>
+</head>
+<body>
+    <h1>Hello World</h1>
+    
+    <h2>Customers with Emails Ending in ".com":</h2>
+    <ul>
+        {% for customer in customers %}
+        <li>{{ customer.email }} (First name: {{ customer.first_name }})</li>
+        {% endfor %}
+    </ul>
+    
+    <h2>Collections with No Featured Products:</h2>
+    <ul>
+        {% for collection in collections %}
+        <li>{{ collection.title }}</li>
+        {% endfor %}
+    </ul>
+    
+    <h2>Low Inventory Products:</h2>
+    <ul>
+        {% for product in low_inventory_products %}
+        <li>{{ product.title }}</li>
+        {% endfor %}
+    </ul>
+</body>
 </html>
