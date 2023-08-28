@@ -8,5 +8,5 @@ def product_list(request):
 
 
 @api_view()
-def product_detail(request):
-    return Response('ok')
+def product_detail(request, id):
+    return Response(id)
