@@ -47,3 +47,7 @@ class CollectionAdmin(admin.ModelAdmin):
             products_count=Count('product')
         )
 
+
+@admin.register(models.Order)
+class OrderAdmin(admin.ModelAdmin):
+    autocomplete_fields = ['customer']
