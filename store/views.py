@@ -1,26 +1,29 @@
 from django.db.models.aggregates import Count
 from django.shortcuts import get_object_or_404
+
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.generics import ListCreateAPIView
+
 from .models import Product, Collection
 from .serializers import ProductSerializer, CollectionSerializer
 
 
-class ProductList(APIView):
-
-    def get(self, request):
-        queryset = Product.objects.all().select_related('collection').all()
-        serializer = ProductSerializer(queryset, many=True, context={'request': request})
-        return Response(serializer.data)
+class ProductList(ListCreateAPIView):
     
+    '''We can use 'queryset =' and 'serliazer_class ='
+       if we dont have any extra logic like if statements'''
 
-    def post(self, request):
-        serializer = ProductSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    def get_queryset(self):
+        return Product.objects.all().select_related('collection').all()
+    
+    def get_serializer_class(self):
+        return ProductSerializer
+    
+    def get_serializer_context(self):
+        return {'request': self.request}
 
 
 class ProductDetails(APIView):
@@ -45,20 +48,16 @@ class ProductDetails(APIView):
         product.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
+class CollectionList(ListCreateAPIView):
 
-@api_view(['GET', 'POST'])
-def collection_list(request):
-
-    if request.method == 'GET':
-        queryset = Collection.objects.annotate(products_count=Count('product'))
-        serializer = CollectionSerializer(queryset, many=True)
-        return Response(serializer.data)
+    def get_queryset(self):
+        return Collection.objects.annotate(products_count=Count('product'))
     
-    elif request.method == 'POST':
-        serializer = CollectionSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    def get_serializer_class(self):
+        return CollectionSerializer
+    
+    def get_serializer_context(self):
+        return {'request': self.request}
 
 
 @api_view(['GET', 'PUT', 'DELETE'])
