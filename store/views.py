@@ -4,12 +4,12 @@ from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.viewsets import ModelViewSet
 
-from .models import Product, Collection, OrderItem
-from .serializers import ProductSerializer, CollectionSerializer
+from .models import Product, Collection, OrderItem, Review
+from .serializers import ProductSerializer, CollectionSerializer, ReviewSerializer
+
 
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
@@ -24,6 +24,7 @@ class ProductViewSet(ModelViewSet):
     
         return super().destroy(request, *args, **kwargs)
     
+
 class ColletionViewSet(ModelViewSet):
     
     queryset = Collection.objects.annotate(
@@ -42,3 +43,7 @@ class ColletionViewSet(ModelViewSet):
         collection.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
     
+
+class ReviewViewSet(ModelViewSet):
+        queryset = Review.object.all()
+        serializer_class = ReviewSerializer()
