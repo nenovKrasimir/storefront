@@ -61,6 +61,16 @@ class ReviewViewSet(ModelViewSet):
             return {'product_id': self.kwargs['product_pk']}
 
 
-class CartViewSet(CreateModelMixin, GenericViewSet):
-    queryset = Cart.objects.all()
+class CartViewSet(ModelViewSet):
+    queryset = Cart.objects.prefetch_related('items__product').all()
     serializer_class = CartSerializer
+    lookup_field = 'id'  # Specify the field to use for lookup in the URL
+
+    def retrieve(self, request, *args, **kwargs):
+        cart = self.get_object()
+        serializer = self.get_serializer(cart)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    def delete()
+
+    # You can override other methods such as create, update, destroy, etc. as needed.
