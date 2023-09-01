@@ -1,6 +1,8 @@
 from django.db import models
 from uuid import uuid4
 
+from django.core.validators import MinValueValidator
+
 
 class Promotion(models.Model):
     description = models.CharField(max_length=255)
@@ -97,7 +99,9 @@ class Cart(models.Model):
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.PositiveIntegerField()
+    quantity = models.PositiveIntegerField(
+        validators=[MinValueValidator(1)]
+    )
 
 
     class Meta:
@@ -108,3 +112,4 @@ class Review(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
     date = models.DateField(auto_now_add=True)
+    
