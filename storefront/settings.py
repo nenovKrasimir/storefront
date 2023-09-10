@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_filters',
+    'core',
     'rest_framework',
     'playground',
     'store',
@@ -130,3 +131,6 @@ INTERNAL_IPS = [
 REST_FRAMEWORK = {
     'COERCE_DECIMAL_TO_STRING': False,
 }
+
+
+AUTH_USER_MODEL = 'core.User'
