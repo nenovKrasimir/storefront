@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_filters',
+    'djoser',
     'core',
     'rest_framework',
     'playground',
@@ -130,7 +131,21 @@ INTERNAL_IPS = [
 
 REST_FRAMEWORK = {
     'COERCE_DECIMAL_TO_STRING': False,
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    ),
+}
+
+
+SIMPLE_JWT = {
+    'AUTH_HEADER_TYPES': ('JWT', ),
 }
 
 
 AUTH_USER_MODEL = 'core.User'
+
+DJOSER = {
+    'SERIALIZERS': {
+        'user_create': 'core.serializers.UserCreateSerializer'
+    }
+}
