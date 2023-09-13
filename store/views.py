@@ -3,13 +3,14 @@ from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 
 from rest_framework import status
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin, UpdateModelMixin
 
 from .models import Product, Collection, OrderItem, Review, Cart, CartItem, Customer, Order
-from .serializers import OrderSerializer, CustomerSerializer, ProductSerializer, CollectionSerializer, ReviewSerializer, CartSerializer, CartItemSerializer, AddCartItemSeriallzer, UpdateCartItemSerializer
+from .serializers import CreateOrderSerializer, OrderSerializer, CustomerSerializer, ProductSerializer, CollectionSerializer, ReviewSerializer, CartSerializer, CartItemSerializer, AddCartItemSeriallzer, UpdateCartItemSerializer
 from .filters import ProductFilter
 from .pagination import DefaultPagination
 
@@ -99,5 +100,21 @@ class CustomerViewSet(ModelViewSet):
     
 
 class OrderViewSet(ModelViewSet):
-    queryset = Order.objects.all()
-    serializer_class = OrderSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return CreateOrderSerializer
+        return OrderSerializer
+    
+    def get_serializer_context(self):
+        return {'user_id': self.request.user.id}
+
+    def get_queryset(self):
+        user = self.request.user
+
+        if user.is_staff:
+            return Order.objects.all()
+        
+        customer_id = Customer.objects.only('id').get_or_create(user_id=user.id)
+        Order.objects.filter(customer_id=customer_id)
