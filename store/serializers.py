@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product, Collection, Review, Cart, CartItem, Customer, Order, OrderItem
+from .models import Product, Collection, Review, Cart, CartItem, Customer, Order, OrderItem, ProductImage
 from decimal import Decimal
 
 class ProductSerializer(serializers.ModelSerializer):
@@ -134,3 +134,9 @@ class CreateOrderSerializer(serializers.ModelSerializer):
 
         (customer, created) = Customer.objects.get_or_create(user_id=self.context['user_id'])
         Order.objects.create(customer=customer)
+
+
+class ProductImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductImage
+        fields = ['id', 'image']

@@ -9,8 +9,9 @@ from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.mixins import CreateModelMixin, RetrieveModelMixin, DestroyModelMixin, UpdateModelMixin
 
-from .models import Product, Collection, OrderItem, Review, Cart, CartItem, Customer, Order
-from .serializers import CreateOrderSerializer, OrderSerializer, CustomerSerializer, ProductSerializer, CollectionSerializer, ReviewSerializer, CartSerializer, CartItemSerializer, AddCartItemSeriallzer, UpdateCartItemSerializer
+from .models import Product,ProductImage, Collection, OrderItem, Review, Cart, CartItem, Customer, Order
+from .serializers import CreateOrderSerializer, OrderSerializer, CustomerSerializer, ProductSerializer, CollectionSerializer, \
+    ProductImageSerializer, ReviewSerializer, CartSerializer, CartItemSerializer, AddCartItemSeriallzer, UpdateCartItemSerializer
 from .filters import ProductFilter
 from .pagination import DefaultPagination
 
@@ -32,6 +33,14 @@ class ProductViewSet(ModelViewSet):
             return Response({'error': 'Product cannot be deleted because their is active order'})
     
         return super().destroy(request, *args, **kwargs)
+    
+
+class ProductImageViewSet(ModelViewSet):
+    serializer_class = ProductImageSerializer
+    
+
+    def get_queryset(self):
+        return ProductImage.objects.filter(product_id=self.kwargs['product_pk'])
     
 
 class ColletionViewSet(ModelViewSet):
