@@ -3,8 +3,19 @@ from django.contrib import admin
 from django.db.models.query import QuerySet
 from django.http.request import HttpRequest
 from django.db.models.aggregates import Count
+from django.utils.html import format_html, urlencode
 
 from . import models
+
+class ProductImageInline(admin.TabularInline):
+    model = models.ProductImage
+    readonly_fields = ['thumbnail']
+
+    def thumbnail(self, instance):
+        if instance.image.name != '':
+            return format_html(f'<img src="{instance.image.url}" class="thumbnail" />')
+        return ''
+
 
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
@@ -20,6 +31,10 @@ class ProductAdmin(admin.ModelAdmin):
             return 'Low'
         return 'OK'
     
+    class Media:
+      css = {
+        'all': ['styless.css']
+    }
 
 @admin.register(models.Customer)
 class CustomerAdmin(admin.ModelAdmin):

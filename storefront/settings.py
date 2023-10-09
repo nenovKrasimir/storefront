@@ -122,6 +122,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
 
@@ -139,6 +140,7 @@ INTERNAL_IPS = [
 
 CORS_ALLOWED_ORIGINS = [
     'http://127.0.0.1:8001',
+    'https://localhost:8001'
 ]
 
 REST_FRAMEWORK = {
