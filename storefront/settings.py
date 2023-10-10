@@ -164,3 +164,9 @@ DJOSER = {
         'user_create': 'core.serializers.UserCreateSerializer'
     }
 }
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'localhost'  # Use 'localhost' because the SMTP server is running on the same machine
+EMAIL_PORT = 2525  # Use the port you mapped when running the Docker container
+EMAIL_USE_TLS = False 
