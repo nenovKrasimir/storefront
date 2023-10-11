@@ -3,19 +3,13 @@ from django.http import HttpResponse
 from django.core.mail import send_mail, mail_admins, BadHeaderError
 from django.db.models.aggregates import Count, Min, Sum
 from store.models import Product, Customer, Collection, OrderItem, Order
+from .tasks import notify_customers
 
 # Create your views here.
 
 def say_hello(request):
-
-    try:
-        send_mail('subject', 'message', 'k.nenov96@abv.bg', ['ivancho@abv.bg'])
-    
-    except BadHeaderError:
-        pass
-    
-    return render(request, 'hello.html', {'name': 'Krasi'})
-
+    notify_customers.delay('Hello')
+    return render(request, 'hello.html', {'name': 'Mosh'})
 
 
     ### Exercies ### 
