@@ -79,10 +79,10 @@ WSGI_APPLICATION = 'storefront.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'storefront',
+        'NAME': 'storefront3',
         'HOST': 'localhost',
         'USER': 'root',
-        'PASSWORD': 'Krask0swes1!'
+        'PASSWORD': 'P@ssword'
     }
 }
 
@@ -170,3 +170,5 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'localhost'  # Use 'localhost' because the SMTP server is running on the same machine
 EMAIL_PORT = 2525  # Use the port you mapped when running the Docker container
 EMAIL_USE_TLS = False 
+
+CELERY_BROKER_URL = 'redis://localhost:6379/1'

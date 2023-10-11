@@ -7,8 +7,15 @@ name = "pypi"
 django = "*"
 django-debug-toolbar = "*"
 mysqlclient = "*"
+django-cors-headers = "*"
+django-filter = "*"
+djoser = "*"
+drf-nested-routers = "*"
+pillow = "*"
+celery = "*"
+redis = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.8"
+python_version = "3.10.12"
