@@ -77,6 +77,8 @@ class CartViewSet(CreateModelMixin,
                   RetrieveModelMixin,
                   DestroyModelMixin,
                   GenericViewSet):
+    authentication_classes = []
+    permission_classes = []
     queryset = Cart.objects.prefetch_related('items__product').all()
     serializer_class = CartSerializer
     lookup_field = 'id'  # Specify the field to use for lookup in the URL
