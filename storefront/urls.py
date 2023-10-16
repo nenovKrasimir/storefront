@@ -5,11 +5,13 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
+import core.urls
 
 admin.site.site_header = 'Storefront Admin'
 admin.site.index_title = 'AdminPanel'
 
 urlpatterns = [
+    path('', include('core.urls')),
     path('admin/', admin.site.urls),
     path('playground/', include('playground.urls')),
     path('store/', include('store.urls')),
