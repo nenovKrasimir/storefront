@@ -1,6 +1,5 @@
 ## The Ultimate Django Series
-
-
+This project was developed following the author of the course Django Ultimate Series - Mosh Hamedani
 
 ## Course Overview
 
